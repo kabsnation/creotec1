@@ -29,6 +29,12 @@ class SchoolHandler{
 		$result = $connect-> insert($query);
 		return $result;
 	}
+	public function getContactPersonById($id){
+		$connect = new Connect();
+		$query ="SELECT * FROM `contactPersonDetails` WHERE idcontactPerson= ".$id;
+		$result = $connect->select($query);
+		return $result;
+	}
 	public function addSchool($schoolName,$city){
 		$connect = new Connect();
 		$query = "INSERT INTO school(schoolName,idCity) VALUES ('".$schoolName."',".$city.")";

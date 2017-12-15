@@ -1,15 +1,43 @@
 <?php
 include('../UI/SchoolHandler.php');
-if(!isset($_GET['id'])){
+if(!isset($_GET['id']) && !isset($_GET['idPerson'])){
 	echo "<script>window.location='School_ManageAddressBook.php'</script>";
 }
-else{
+else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 	$handler = new SchoolHandler();
 	$con = new Connect();
+	$idPerson= "";
+	$id = "";
+	$resultContactPerson="";
+	$resultSchool = "";
+	$resultPerson = "";
+	$contactPerson ="";
 	$connect = $con->connectDB();
-	$id = mysqli_real_escape_string($connect,stripcslashes(trim($_GET['id'])));
-	$resultContactPerson = $handler->getContactPersonBySchoolId($id);
-	$resultSchool = $handler->getSchoolById($id);
+	if(isset($_GET['id'])){
+		$id = mysqli_real_escape_string($connect,stripcslashes(trim($_GET['id'])));
+		$resultContactPerson = $handler->getContactPersonBySchoolId($id);
+		$resultSchool = $handler->getSchoolById($id);
+		echo "<style type='text/css'>
+			    #editPerson{
+				 display: none
+				}
+				#viewSchool{
+				 display: block
+				}
+			 </style>";
+	}
+	if(isset($_GET['idPerson'])){
+		$idPerson =mysqli_real_escape_string($connect,stripcslashes(trim($_GET['idPerson'])));
+		$resultPerson = $handler->getContactPersonById($idPerson);
+		echo "<style type='text/css'>
+			    #editPerson{
+				 display: block
+				}
+				#viewSchool{
+				 display: none
+				}
+			 </style>";
+	}
 }
 ?>
 <html>
@@ -50,9 +78,6 @@ else{
     div.container {
         width: 80%;
     }
-    #addContactPerson{
-	 display: none
-	}
 </style>
 <body>
 	<!-- Main navbar -->
@@ -163,7 +188,8 @@ else{
 								<div class="panel-body">
 									<div class="col-lg-12">
 										<fieldset class="content-group">
-											<?php foreach($resultSchool as $school){?>
+											<?php if($resultSchool != null){
+												foreach($resultSchool as $school){?>
 											<div class="row">
 												<div class="col-lg-12">
 													<div class="col-lg-3">
@@ -171,7 +197,7 @@ else{
 														<input class="form-control" value="<?php echo $school['schoolName'];?>" disabled="true"/>
 													</div>
 													<div class="col-lg-3">
-														<a class="btn btn-primary" style="margin-left: -15px;" data-toggle="modal" data-target="#modalChangeSchoolName"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
+														<a class="btn btn-primary" style="margin-left: -15px;" data-toggle="modal" data-target="#"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
 													</div>
 												</div>
 											</div>
@@ -211,13 +237,65 @@ else{
 														<td><?php echo $person['telephoneNumber'];?></td>
 														<td><?php echo $person['faxNumber'];?></td>
 														<td><?php echo $person['emailAddress'];?></td>
-														<td><a href='#' name='sample' id='sample' style='color: #d35400'><i class='icon-trash'></i>Edit</a>
-														<a href="#" name="sample" id="sample" style="color: #d35400;" onclick="promptDelete(<?php echo $school['idSchool'];?>)"><i class="icon-trash" style="margin-left: 5px; margin-right: 3px;"></i>Delete</a>
+														<td class="text-center">
+															<ul class="icons-list">
+														<li class="dropdown">
+															<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+																<i class="icon-menu9"></i>
+															</a>
+															<ul class="dropdown-menu dropdown-menu-right">
+																<li><a href='School_UpdateSchool.php?idPerson=<?php echo $person['idcontactPerson'];?>' name='sample' id='sample'><i class='icon-pencil' style="margin-left: 5px; margin-right: 3px;"></i>Edit</a></li>
+																<li><a href="#" name="sample" id="sample"  onclick="promptDelete(<?php echo $school['idSchool'];?>)"><i class="icon-trash" style="margin-left: 5px; margin-right: 3px;"></i>Delete</a></li>
+															</ul>
+														</li>
+													</ul>
+
+														
 													</td>
 													</tr>
-													<?php }}?>
+													<?php }}}?>
 												</tbody>
 											</table>
+										</fieldset>
+									</div>
+								</div>
+									
+								</div>
+							<div class="panel panel-flat" name="editPerson" id="editPerson">
+								<div class="panel-heading">
+									<h5 class="panel-title">School Details</h5>
+									<div class="heading-elements">
+							    	</div>
+								</div>
+
+								<div class="panel-body">
+									<div class="col-lg-12">
+										<fieldset class="content-group">
+
+											<?php if($resultPerson != null){
+												foreach($resultPerson as $cPerson){?>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="col-lg-3">
+														<input class="form-control" type="text" value="asd" disabled="true"/>
+													</div>
+													<div class="col-lg-3">
+														<a class="btn btn-primary" style="margin-left: -15px;" data-toggle="modal" data-target="#modalChangeSchoolName"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
+													</div>
+												</div>
+											</div>
+										</br>
+											<div class="row"> 
+												<div class="col-lg-12">
+													<div class="col-lg-3">
+														<input class="form-control" value="<?php echo $school['cityName'].", ".$school['provinceName'];?>" disabled="true"/>
+													</div>
+													<div class="col-lg-3">
+														<a href="" class="btn btn-primary" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
+													</div>
+												</div>
+											</div>
+											<?php }}?>
 										</fieldset>
 									</div>
 								</div>
@@ -269,7 +347,7 @@ else{
 		    $('#tablePreview').dataTable( {
 			  "columnDefs": [ {
 				"targets": 6,
-				"orderable": true
+				"orderable": false
 				} ]
 			} );
 		    function promptDelete(val){
@@ -304,7 +382,7 @@ else{
 		    	$.ajax({
 				type: "POST",
 				url: "updateSchoolFunction.php",
-				data: { id: id, name : val }
+				data: { id: id, name : val },
 				success: function(data){
 					window.location ='School_ManageAddressBook.php';
 				}
@@ -312,13 +390,13 @@ else{
 		    }
 		    function showDiv(){
 		    	var x = document.getElementById('viewSchool');
-		    	var y = document.getElementById('addContactPerson');
+		    	var y = document.getElementById('editPerson');
 		    	x.style.display = "none";
 		    	y.style.display = "block";
 		    }
 		    function hideDiv(){
 		    	var x = document.getElementById('viewSchool');
-		    	var y = document.getElementById('addContactPerson');
+		    	var y = document.getElementById('editPerson');
 		    	x.style.display = "block";
 		    	y.style.display = "none";
 		    }
