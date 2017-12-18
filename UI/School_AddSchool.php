@@ -341,7 +341,7 @@ $provinceResult = $connect->select($provinceQuery);
 		var tNumber = "<td><input type='hidden' value= "+telephoneNumber+" name='telephoneNumber[]' >"+telephoneNumber+"</td>";
 		var fNumber = "<td><input type='hidden' value= "+faxNumber+" name='faxNumber[]' >"+faxNumber+"</td>";
 		var eAddress = "<td><input type='hidden' value= "+emailAddress+" name='emailAddress[]' >"+emailAddress+"</td>";
-		var action = "<a href='#' name='sample' id='sample' style='color: #d35400'><i class='icon-trash'></i>Delete</a>";
+		var action = "<a name='sample' id='sample' style='color: #d35400'><i class='icon-trash'></i>Delete</a>";
 		table.row.add([cPerson,dDesignation,cNumber,tNumber,fNumber,eAddress, action]).draw(false);
 	}
 	function getCity(val){
@@ -354,4 +354,9 @@ $provinceResult = $connect->select($provinceQuery);
 			}
 		});
 	}
+	var myTable = $('#table1').DataTable();
+	$('#table1').on("click", "a", function(){
+            console.log($(this).parent());
+            myTable.row($(this).parents('tr')).remove().draw(false);
+      });
 </script>

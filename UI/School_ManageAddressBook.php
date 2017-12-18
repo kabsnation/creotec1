@@ -166,7 +166,8 @@ $results = $handler->getSchool();
 										</thead>
 
 										<tbody style="font-size: 12px;">
-											<?php foreach($results as $result){
+											<?php if($results){
+												foreach($results as $result){
 												?>
 								            <tr>
 								                <td><?php echo $result['schoolName'];?></td>
@@ -178,7 +179,7 @@ $results = $handler->getSchool();
 															
 												</td>
 								            </tr>
-								            <?php }?>
+								            <?php }}?>
 								          
 								        </tbody>
 
