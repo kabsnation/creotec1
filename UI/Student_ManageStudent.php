@@ -2,13 +2,29 @@
 require_once('../config/config.php');
 $connect = new Connect();
 $con = $connect-> connectDB();
-$queryAccount = 'SELECT firstName, LastName, schoolName, strand, targetCourse, batchCode 
-FROM accountinformation, applicants, batch, targetcourse, school, strand
-where applicants.idAccountInformation=accountinformation.idAccountInformation  
-and applicants.idStrand=strand.idStrand and applicants.idBatch=batch.idBatch 
-and applicants.idtargetcourse=targetcourse.idtargetcourse 
-and applicants.idSchool=school.idSchool
-ORDER BY applicants.idAccountInformation';
+$queryAccount="";
+$queryBatch = "SELECT batch.idbatch, capacity, (select count(*) as count from applicants as a WHERE a.idbatch = batch.idbatch AND a.idstrand = strand.idstrand) as counter, strand, strand.idStrand FROM slots JOIN strand ON strand.idstrand = slots.idstrand JOIN batch ON batch.idbatch = slots.idbatch WHERE capacity != 0";
+$resultBatch = $connect->select($queryBatch);
+if(isset($_GET['idbatch'])){
+	$idbatch = mysqli_real_escape_string($con,stripcslashes(trim($_GET['idbatch'])));
+	$queryAccount = "SELECT firstName, LastName, schoolName, strand, targetCourse, batchCode 
+	FROM accountinformation, applicants, batch, targetcourse, school, strand
+	where applicants.idAccountInformation=accountinformation.idAccountInformation  
+	and applicants.idStrand=strand.idStrand and applicants.idBatch=batch.idBatch 
+	and applicants.idtargetcourse=targetcourse.idtargetcourse 
+	and applicants.idSchool=school.idSchool and batch.idbatch= ".$idbatch. " ORDER BY applicants.idAccountInformation";
+}
+else{
+	foreach ($resultBatch as $batch) {
+		$queryAccount = "SELECT firstName, LastName, schoolName, strand, targetCourse, batchCode 
+		FROM accountinformation, applicants, batch, targetcourse, school, strand
+		where applicants.idAccountInformation=accountinformation.idAccountInformation  
+		and applicants.idStrand=strand.idStrand and applicants.idBatch=batch.idBatch 
+		and applicants.idtargetcourse=targetcourse.idtargetcourse 
+		and applicants.idSchool=school.idSchool and batch.idbatch= ".$batch['idbatch']. " ORDER BY applicants.idAccountInformation";	
+		break;
+	}
+}
 $resultsAccount= $connect->select($queryAccount);
 ?>
 <html>
@@ -115,9 +131,19 @@ $resultsAccount= $connect->select($queryAccount);
 								<li>
 									<a href="#"><i class="icon-vcard"></i> <span>Student Directory</span></a>
 									<ul>
-										<li class="active"><a href="Student_ManageAddressBook.php"><i class="icon-book3"></i> <span>Manage Students</span></a></li>
+										<li class="active"><a href="Student_ManageAddressBook.php"><i class="icon-book3"></i> <span>Students Masterlist</span></a></li>
 									</ul>
 								</li>
+
+								<li>
+									<a href="Attendance_View.php"><i class="icon-users"></i> <span>Attendance List</span></a>
+									
+								</li>
+								<li>
+									<a href="Generate_BatchCode.php"><i class="icon-cogs"></i> <span>Generate Batch Code</span></a>
+									
+								</li>
+
 
 							</ul>
 						</div>
@@ -148,9 +174,30 @@ $resultsAccount= $connect->select($queryAccount);
 
 							<div class="panel panel-flat">
 								<div class="panel-heading">
+
 									<h5 class="panel-title">Student Directory</h5>
+
 									<div class="heading-elements">
-							    	</div>
+
+										
+										<div class="form-group">
+											<label>Batch: </label>					                 
+											<select class="select">
+												<?php $tempo;
+													foreach($resultBatch as $batch){
+														if($tempo != $batch['idbatch']){
+															$tempo = $batch['idbatch'];
+													?>
+													<option value="<?php echo $batch['idbatch'];?>"><?php echo $batch['idbatch'];?></option>
+													<?php }}?>
+							                </select>
+							                <br />
+
+						    	<button type="button" class="btn btn-info" onclick="printAttendance();"><i class="icon-printer" style="margin-right: 5px;"></i>Print</button>
+						    		<br />
+						    		</div>					         
+						    	</div>
+
 								</div>
 
 								<div class="panel-body">
@@ -158,12 +205,11 @@ $resultsAccount= $connect->select($queryAccount);
 
 										<thead style="font-size: 14px;">
 											<tr>
+								                <th>Batch Code</th>
 								                <th>Name</th>
 								                <th>School</th>
 								                <th>Strand</th>
 								                <th>Target Course</th>
-								                <th>Batch Code</th>
-								                <th class="text-center">Actions</th>
 								            </tr>
 										</thead>
 
@@ -171,24 +217,12 @@ $resultsAccount= $connect->select($queryAccount);
 										<?php foreach($resultsAccount as $result){
 												?>
 								            <tr>
+								                <td><?php echo $result['batchCode'];?></td>
 								                <td><?php echo $result['LastName'].', '.$result['firstName'] ;?></td>
 								                <td><?php echo $result['schoolName'];?></td>
 								                <td><?php echo $result['strand'];?></td>
 								                <td><?php echo $result['targetCourse'];?></td>
-								                <td><?php echo $result['batchCode'];?></td>
-												<td class="text-center">
-													<ul class="icons-list">
-														<li class="dropdown">
-															<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-																<i class="icon-menu9"></i>
-															</a>
-															<ul class="dropdown-menu dropdown-menu-right">
-																<li><a href="School_UpdateSchool.php?id=<?php echo $result['idSchool'];?>" id="update" name="update"><i class="icon-pencil"></i>Update</a></li>
-																<li><a href="#" name="sample" id="sample" onclick="promptDelete(<?php echo $result['idSchool'];?>)"><i class="icon-trash"></i>Delete</a></li>
-															</ul>
-														</li>
-													</ul>
-												</td>
+												
 								            </tr>
 								            <?php }?>
 

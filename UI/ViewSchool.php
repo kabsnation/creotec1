@@ -145,7 +145,7 @@ else{
 				<div class="page-header page-header-default">
 					<div class="page-header-content">
 						<div class="page-title">
-							<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Address Book</span> - Manage School Directory</h4>
+							<h4><a href="School_ManageAddressBook.php"><i class="icon-arrow-left52 position-left"></i></a> <span class="text-semibold">Address Book</span> - Manage School Directory</h4>
 						</div>
 					</div>
 				</div>
@@ -164,13 +164,12 @@ else{
 								</div>
 
 								<div class="panel-body">
-									<div class="col-lg-12">
-										<fieldset class="content-group">
+										<div class="col-lg-12">
 											<?php foreach($resultSchool as $school){?>
-											<label class="control-label col-lg-12" style="margin-top: -25px;"><h3><?php echo $school['schoolName'];?></h3></label>
+											<div class="col-lg-12" style="margin-top: -25px"><h3><?php echo $school['schoolName'];?></h3></div>
 											<label class="control-label col-lg-12"><?php echo $school['cityName'].", ".$school['provinceName'];?></label>
 											<?php }?>
-											<table class="table datatable-html" style='font-size: 13px;' name="tablePreview" id="tablePreview">
+											<table class="table datatable-html" style='font-size: 13px; ' name="tablePreview" id="tablePreview">
 
 												<thead style="font-size: 13px;">
 													<tr>
@@ -195,10 +194,7 @@ else{
 													<?php }?>
 												</tbody>
 											</table>
-										</fieldset>
-									</div>
-
-									
+										</div>
 								</div>
 							</div>
 						</div>

@@ -81,13 +81,15 @@ if(isset($_POST["batchcode"])){
 	if($doneUpload ==1){
 		$query = "INSERT INTO `accountinformation`(`firstName`, `middleName`, `lastName`, `contactNumber`, `emailAddress`, `homeAddress`, `birthDate`, `idCity`, `idnationality`, `idreligion`, `gName`, `idrelationship`, `gAddress`, `gContactNumber`, `gEmailAddress`, `idGender`)  VALUES('".$firstName."','".$middleName."','".$lastName."','".$contactNumber."','".$emailAddress."','".$homeAddress."','".$bdate."',".$city.",".$nationaility.",".$religion.",'".$guardianName."','".$relationship."','".$gHomeAddress."','".$gContactNumber."','".$gEmailAddress."',".$gender.")";
 		$result = $connect -> insertWithLastId($query);
+
 		if($result!=""){
 			$query="INSERT INTO `applicants`(`idtargetcourse`, `idAccountInformation`, `idStrand`, `idbatch`,picture,idSchool) VALUES('".$targetCourse."',".$result.",".$strand.",(SELECT idbatch FROM batch WHERE batchCode = '".$batchcode."'),'".$target_file."',".$school.")";
 			$result = $connect -> insert($query);
+			
 			if($result){
 				echo '<script type="text/javascript">
-					window.location = "index.php";
-					alert("Success!");
+					window.location = "print.php?file=1";
+					alert("Success! Downloading the file.");
 					</script>';
 			}
 			else{
