@@ -118,9 +118,20 @@ $provinceResult = $connect->select($provinceQuery);
 								<li>
 									<a href="#"><i class="icon-vcard"></i> <span>Student Directory</span></a>
 									<ul>
-										<li><a href="Student_ManageStudent.php"><i class="icon-book3"></i> <span>Manage Students</span></a></li>
+										<li><a href="Student_ManageStudent.php"><i class="icon-book3"></i> <span>Students Masterlist</span></a></li>
 									</ul>
 								</li>
+
+								<li >
+									<a href="#"><i class="icon-users"></i> <span>Attendance List</span></a>
+									
+								</li>
+
+								<li>
+									<a href="Generate_BatchCode.php"><i class="icon-cogs"></i> <span>Generate Batch Code</span></a>
+									
+								</li>
+
 
 							</ul>
 						</div>
@@ -179,7 +190,12 @@ $provinceResult = $connect->select($provinceQuery);
 
 												<div class="form-group">
 													<label><strong>Province:</strong><span class="text-danger">*</span> </label>
+<<<<<<< HEAD
 													<select type="text" class="form-control select" onchange="getCity(this.value)" required="required"/>
+=======
+													<select type="text" class="form-control select" onchange="getCity(this.value)"/>
+													<option value=""></option>
+>>>>>>> 1eea154434eeb6fac3ec4e03f705a6370463d7fe
 														<?php foreach($provinceResult as $province){?>
 														<option value="<?php echo $province['idProvince'];?>"><?php echo $province['provinceName'];?></option>
 														<?php }?>
@@ -320,7 +336,7 @@ $provinceResult = $connect->select($provinceQuery);
 					</form>
 				</div>
 
-				<div class="modal-footer">
+				<div class="modal -footer">
 					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addToContactTable(txtContactPerson.value,txtDesignation.value,txtContactNumber.value,txtTelephoneNumber.value,txtFaxNumber.value,txtEmailAddress.value)">Save</button>
 				</div>

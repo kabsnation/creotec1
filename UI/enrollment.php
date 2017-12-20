@@ -386,7 +386,6 @@ $resultsGender= $connect -> select($queryGender);
 								</div>
 
 							</fieldset>
-
 							<button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
 						</form>
 		            </div>
