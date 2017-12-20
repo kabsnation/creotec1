@@ -78,6 +78,7 @@ $(function() {
         initialCaption: "No file selected",
         previewZoomButtonClasses: previewZoomButtonClasses,
         previewZoomButtonIcons: previewZoomButtonIcons,
+        allowedFileExtensions: ["jpg", "jpeg"],
         fileActionSettings: fileActionSettings
     });
 
@@ -158,7 +159,7 @@ $(function() {
             modal: modalTemplate
         },
         maxFilesNum: 10,
-        allowedFileExtensions: ["jpg", "png", "jpeg"],
+        allowedFileExtensions: ["jpg", "jpeg"],
         initialCaption: "No file selected",
         previewZoomButtonClasses: previewZoomButtonClasses,
         previewZoomButtonIcons: previewZoomButtonIcons,
