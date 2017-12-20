@@ -72,12 +72,13 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 	<script type="text/javascript" src="assets/js/core/app.js"></script>
 	<script type="text/javascript" src="assets/js/pages/datatables_data_sources.js"></script>
 	<script type="text/javascript" src="assets/js/pages/components_modals.js"></script>
+	    <script type="text/javascript" src="assets/js/pages/uploader_bootstrap.js"></script>
+    <script type="text/javascript" src="assets/js/pages/form_validation.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/validation/validate.min.js"></script>
+       <script type="text/javascript" src="assets/js/plugins/uploaders/fileinput.min.js"></script>
 	<!-- /theme JS files -->
 </head>
 <style type="text/css">
-    div.container {
-        width: 80%;
-    }
 </style>
 <body>
 	<!-- Main navbar -->
@@ -167,7 +168,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 				<div class="page-header page-header-default">
 					<div class="page-header-content">
 						<div class="page-title">
-							<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Address Book</span> - Manage School Directory</h4>
+							<h4> <span class="text-semibold">Address Book</span> - Manage School Directory</h4>
 						</div>
 					</div>
 				</div>
@@ -190,31 +191,91 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 										<fieldset class="content-group">
 											<?php if($resultSchool != null){
 												foreach($resultSchool as $school){?>
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="col-lg-3">
+									</div>
 
-														<input class="form-control" value="<?php echo $school['schoolName'];?>" disabled="true"/>
-													</div>
-													<div class="col-lg-3">
-														<a class="btn btn-primary" style="margin-left: -15px;" data-toggle="modal" data-target="#"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
-													</div>
+									<div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>School Name:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="<?php echo $school['schoolName'];?>" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editSchoolName" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New School Name:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="<?php echo $school['schoolName'];?>" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                    	<div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>School Address:</strong></label>
+
+                                                <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="<?php echo $school['cityName'].", ".$school['provinceName'];?>" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel1(this)" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>Edit</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="editSchoolAddress" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+												<label><strong>New Province:</strong><span class="text-danger">*</span> </label>
+												<select type="text" class="form-control select" onchange="getCity(this.value)"/>
+													<?php foreach($provinceResult as $province){?>
+													<option value="<?php echo $province['idProvince'];?>"><?php echo $province['provinceName'];?></option>
+													<?php }?>
+												</select> 
+											</div>
+
+											<div class="form-group">
+												<label><strong>New City / Municipality:</strong><span class="text-danger">*</span> </label>
+												<select type="text" name="city" id="city" class="form-control select" /></select> 
+											</div>
+
+											<div class="form-group">
+												<div class="text-right">
+													<a class="btn btn-danger" onclick="HideEventListPanel1(this)">Cancel</a>
+		                                        	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
 												</div>
 											</div>
+	                                    </div>
+
 										</br>
-											<div class="row"> 
-												<div class="col-lg-12">
-													<div class="col-lg-3">
-														<input class="form-control" value="<?php echo $school['cityName'].", ".$school['provinceName'];?>" disabled="true"/>
-													</div>
-													<div class="col-lg-3">
-														<a href="" class="btn btn-primary" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
-													</div>
-												</div>
-											</div>
-											
-										</br>
-											<div class="row">
+											<div class="col-lg-12">
 											<table class="table datatable-html" style='font-size: 13px;' name="tablePreview" id="tablePreview">
 
 												<thead style="font-size: 13px;">
@@ -229,7 +290,9 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 										            </tr>
 												</thead>
 												<tbody style="font-size: 13px;">
-													<?php foreach($resultContactPerson as $person){?>
+													<?php if($resultContactPerson){
+													 foreach($resultContactPerson as $person){?>
+													
 													<tr>
 														<td><?php echo $person['contactName'];?></td>
 														<td><?php echo $person['designation'];?></td>
@@ -253,54 +316,260 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 														
 													</td>
 													</tr>
-													<?php }}}?>
+													<?php }}}} ?>
 												</tbody>
 											</table>
 										</fieldset>
 									</div>
+
 								</div>
-									
-								</div>
+							</div>
+
 							<div class="panel panel-flat" name="editPerson" id="editPerson">
 								<div class="panel-heading">
-									<h5 class="panel-title">School Details</h5>
+									<h5 class="panel-title"><a class="btn-link" onclick="hidePerson(this)"><i class="icon-arrow-left52 position-left"></i></a>Contact Person Details</h5>
 									<div class="heading-elements">
 							    	</div>
 								</div>
 
 								<div class="panel-body">
-									<div class="col-lg-12">
-										<fieldset class="content-group">
 
-											<?php if($resultPerson != null){
-												foreach($resultPerson as $cPerson){?>
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="col-lg-3">
-														<input class="form-control" type="text" value="asd" disabled="true"/>
-													</div>
-													<div class="col-lg-3">
-														<a class="btn btn-primary" style="margin-left: -15px;" data-toggle="modal" data-target="#modalChangeSchoolName"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
-													</div>
-												</div>
-											</div>
-										</br>
-											<div class="row"> 
-												<div class="col-lg-12">
-													<div class="col-lg-3">
-														<input class="form-control" value="<?php echo $school['cityName'].", ".$school['provinceName'];?>" disabled="true"/>
-													</div>
-													<div class="col-lg-3">
-														<a href="" class="btn btn-primary" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>EDIT</a>
-													</div>
-												</div>
-											</div>
-											<?php }}?>
-										</fieldset>
-									</div>
+									<div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Contact Person Name:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel2(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editContactPersonName" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Contact Person Name:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel2(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Designation:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel3(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editDesignation" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Designation:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel3(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Cellphone Number:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel4(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editCellphoneNumber" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Cellphone Number:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel4(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Telephone Number:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel5(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editTelephoneNumber" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Telephone Number:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel5(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Fax Number:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel6(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editFaxNumber" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Fax Number:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel6(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><span class="text-danger">* </span><strong>Email Address:</strong></label>
+
+                                                <div id="SchoolName" class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" disabled="true"/>
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-primary" onclick="HideEventListPanel7(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+  
+                                        <div id="editEmailAddress" class="col-md-6" style="display: none;">
+                                        	<div class="form-group">
+                                            	<label><span class="text-danger">* </span><strong>New Email Address:</strong></label>
+                                            	 <div class="input-group content-group">
+                                                    <div class="has-feedback has-feedback-left">
+                                                    	<input class="form-control" value="" />
+                                                        <div class="form-control-feedback">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="input-group-btn">
+                                                    	<a class="btn btn-danger" onclick="HideEventListPanel7(this)">Cancel</a>
+                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
 								</div>
-									
-								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -394,6 +663,92 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		    	x.style.display = "none";
 		    	y.style.display = "block";
 		    }
+
+		    function HideEventListPanel() {
+		        var x = document.getElementById("editSchoolName");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel1() {
+		        var x = document.getElementById("editSchoolAddress");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel2() {
+		        var x = document.getElementById("editContactPersonName");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel3() {
+		        var x = document.getElementById("editDesignation");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel4() {
+		        var x = document.getElementById("editCellphoneNumber");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel5() {
+		        var x = document.getElementById("editTelephoneNumber");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel6() {
+		        var x = document.getElementById("editFaxNumber");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function HideEventListPanel7() {
+		        var x = document.getElementById("editEmailAddress");
+		        if (x.style.display === "none") {
+		            x.style.display = "block";
+		        } else {
+		            x.style.display = "none";
+		        }
+		    }
+
+		    function hidePerson() {
+		        var x = document.getElementById("editPerson");
+		        var y = document.getElementById("viewSchool");
+		        if(x.style.display === 'display'){
+		        	x.style.display = "none";
+		        	y.style.display = "block";
+		        }
+		        else{
+		        	x.style.display = "none";
+		        	y.style.display = "block";
+		        }
+		    }
+
 		    function hideDiv(){
 		    	var x = document.getElementById('viewSchool');
 		    	var y = document.getElementById('editPerson');

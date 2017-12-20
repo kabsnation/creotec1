@@ -169,16 +169,16 @@ $results = $handler->getSchool();
 											<?php if($results){
 												foreach($results as $result){
 												?>
-								            <tr>
-								                <td><?php echo $result['schoolName'];?></td>
-								                <td><?php echo $result['cityName'].", ".$result['provinceName'];?></td>
-												<td class="text-center">
-													<a href="ViewSchool.php?id=<?php echo $result['idSchool'];?>" id="update" name="view" style="color: #2c3e50;"><i class="icon-eye" style="margin-right: 3px;"></i>View</a>
-													<a href="School_UpdateSchool.php?id=<?php echo $result['idSchool'];?>" id="update" name="update" style="color: #2980b9"><i class="icon-pencil" style="margin-right: 3px;"></i>Update</a>
-													<a href="#" name="sample" id="sample" style="color: #d35400;" onclick="promptDelete(<?php echo $result['idSchool'];?>)"><i class="icon-trash" style="margin-left: 5px; margin-right: 3px;"></i>Delete</a>
-															
-												</td>
-								            </tr>
+									            <tr>
+									                <td><?php echo $result['schoolName'];?></td>
+									                <td><?php echo $result['cityName'].", ".$result['provinceName'];?></td>
+													<td class="text-center">
+														<a href="ViewSchool.php?id=<?php echo $result['idSchool'];?>" id="update" name="view" style="color: #2c3e50;"><i class="icon-eye" style="margin-right: 3px;"></i>View</a>
+														<a href="School_UpdateSchool.php?id=<?php echo $result['idSchool'];?>" id="update" name="update" style="color: #2980b9"><i class="icon-pencil" style="margin-right: 3px;"></i>Update</a>
+														<a href="#" name="sample" id="sample" style="color: #d35400;" onclick="promptDelete(<?php echo $result['idSchool'];?>)"><i class="icon-trash" style="margin-left: 5px; margin-right: 3px;"></i>Delete</a>
+																
+													</td>
+									            </tr>
 								            <?php }}?>
 								          
 								        </tbody>

@@ -167,7 +167,7 @@ $provinceResult = $connect->select($provinceQuery);
 											
 												<div class="form-group">
 													<label><strong>School Name:</strong><span class="text-danger">*</span> </label>
-													<input type="text" class="form-control" name="schoolName" onkeyup="yeah(this)" />
+													<input type="text" class="form-control" name="schoolName" onkeyup="yeah(this)" required="required" />
 												</div>
 
 											</fieldset>
@@ -179,7 +179,7 @@ $provinceResult = $connect->select($provinceQuery);
 
 												<div class="form-group">
 													<label><strong>Province:</strong><span class="text-danger">*</span> </label>
-													<select type="text" class="form-control select" onchange="getCity(this.value)"/>
+													<select type="text" class="form-control select" onchange="getCity(this.value)" required="required"/>
 														<?php foreach($provinceResult as $province){?>
 														<option value="<?php echo $province['idProvince'];?>"><?php echo $province['provinceName'];?></option>
 														<?php }?>
@@ -188,7 +188,7 @@ $provinceResult = $connect->select($provinceQuery);
 
 												<div class="form-group">
 													<label><strong>City / Municipality:</strong><span class="text-danger">*</span> </label>
-													<select type="text" name="city" id="city" class="form-control select" /></select> 
+													<select type="text" name="city" id="city" class="form-control select" required="required"/></select> 
 												</div>
 
 												<!-- <legend class="text-bold">Contact Person Details</legend>
