@@ -1,8 +1,9 @@
 <?php
 require_once('../config/config.php');
+require_once('../UI/pdfmaker.php');
 $connect = new Connect();
 $con = $connect-> connectDB();
-
+$pdfmaker = new pdfMaker();
 $target_dir = "images/";
 $target_file = $target_dir . basename($_FILES["wizard-picture"]["name"]);
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -87,10 +88,16 @@ if(isset($_POST["batchcode"])){
 			$result = $connect -> insert($query);
 			
 			if($result){
-				echo '<script type="text/javascript">
-					window.location = "print.php?file=1";
-					alert("Success! Downloading the file.");
-					</script>';
+				$query = "SELECT idbatch FROM batch WHERE batchCode='".$batchcode."'";
+				$batchNumber = $connect->select($query);
+				foreach($batchNumber as $number){
+					$pdfmaker->registrationForm($lastName.", ".$firstName." ".$middleName,$number['idbatch'],$strand,$school,$target_file);
+				}
+				// echo '<script type="text/javascript">
+				// 	window.location = "print.php?file=1";
+				// 	alert("Success! Downloading the file.");
+				// 	window.location = "index.php";
+				// 	</script>';
 			}
 			else{
 				echo '<script type="text/javascript">

@@ -12,9 +12,12 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 	$resultSchool = "";
 	$resultPerson = "";
 	$contactPerson ="";
+	$query = "";
 	$connect = $con->connectDB();
 	if(isset($_GET['id'])){
 		$id = mysqli_real_escape_string($connect,stripcslashes(trim($_GET['id'])));
+		$query = 'SELECT * FROM province ORDER BY provinceName';
+		$provinceResult = $con->select($query);
 		$resultContactPerson = $handler->getContactPersonBySchoolId($id);
 		$resultSchool = $handler->getSchoolById($id);
 		echo "<style type='text/css'>
@@ -206,7 +209,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button class="btn btn-primary" id="btn1" onclick="HideEventListPanel(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button> 
                                                     </div>
                                                 </div>
 
@@ -218,14 +221,14 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                             	<label><span class="text-danger">* </span><strong>New School Name:</strong></label>
                                             	 <div class="input-group content-group">
                                                     <div class="has-feedback has-feedback-left">
-                                                    	<input class="form-control" value="<?php echo $school['schoolName'];?>" />
+                                                    	<input class="form-control" id="newSchoolName" name="newSchoolName" value="y4eah">
                                                         <div class="form-control-feedback">
                                                         </div>
                                                     </div>
 
                                                     <div class="input-group-btn">
                                                     	<a class="btn btn-danger" onclick="HideEventListPanel(this)">Cancel</a>
-                                                    	<a class="btn btn-primary" onclick=""><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
+                                                    	<a class="btn btn-primary" onclick="updateSchoolName(<?php echo $id?>)"><i class="icon-pencil" style="margin-right: 5px;"></i>Save</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,7 +248,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel1(this)" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>Edit</a>
+                                                    	<button id="btn2" class="btn btn-primary" onclick="HideEventListPanel1(this)" style="margin-left: -15px;"><i style="margin-right: 5px;" class="icon-pencil"></i>Edit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -256,14 +259,14 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 												<label><strong>New Province:</strong><span class="text-danger">*</span> </label>
 												<select type="text" class="form-control select" onchange="getCity(this.value)"/>
 													<?php foreach($provinceResult as $province){?>
-													<option value="<?php echo $province['idProvince'];?>"><?php echo $province['provinceName'];?></option>
+													<option value="<?php echo $province['idProvince'];?>" onchange="getCity(this.value)"><?php echo $province['provinceName'];?></option>
 													<?php }?>
 												</select> 
 											</div>
 
 											<div class="form-group">
 												<label><strong>New City / Municipality:</strong><span class="text-danger">*</span> </label>
-												<select type="text" name="city" id="city" class="form-control select" /></select> 
+												<select type="text" name="dropdownCity" id="dropdownCity" class="form-control select" /></select> 
 											</div>
 
 											<div class="form-group">
@@ -347,7 +350,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel2(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn3" class="btn btn-primary" onclick="HideEventListPanel2(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -386,7 +389,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel3(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn4" class="btn btn-primary" onclick="HideEventListPanel3(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -425,7 +428,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel4(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn5" class="btn btn-primary" onclick="HideEventListPanel4(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -464,7 +467,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel5(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn6"  class="btn btn-primary" onclick="HideEventListPanel5(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -503,7 +506,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel6(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn7" class="btn btn-primary" onclick="HideEventListPanel6(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -542,7 +545,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
                                                     </div>
 
                                                     <div class="input-group-btn">
-                                                    	<a class="btn btn-primary" onclick="HideEventListPanel7(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</a>
+                                                    	<button id="btn8" class="btn btn-primary" onclick="HideEventListPanel7(this)"><i class="icon-pencil" style="margin-right: 5px;"></i>Edit</button>
                                                     </div>
                                                 </div>
 
@@ -587,29 +590,7 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 	</div>
 	<!-- Page container -->
 	 <!-- Small modal -->
-	<div id="modalChangeSchoolName" class="modal fade">
-		<div class="modal-dialog modal-md">
-			<form action="#" class="form-validate-jquery">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h5 class="modal-title">Update School Name</h5>
-					</div>
-
-					<div class="modal-body">
-						<div class="col-lg-6" style="margin-left: 50px;">
-							<input type="text" class="form-control" id="newSchoolName" name="newSchoolName">
-						</div>
-						
-					</div>
-					<div class="modal-footer" >
-						<button type="button" class="btn btn" data-dismiss="modal" >Close</button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateSchoolName(<?php echo $id;?>,newSchoolName.value)">Save</button>
-					</div>
-			</div>
-			</form>
-		</div>
-	</div>
+	
 	<!-- /small modal -->
 	<script type="text/javascript">
 		    // Warning alert
@@ -636,6 +617,16 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        		}
 		        });
 		    }
+		    function getCity(val){
+				$.ajax({
+					type: "POST",
+					url: "getCity.php",
+					data: 'idProvince=' + val,
+					success: function(data){
+						$("#dropdownCity").html(data);
+					}
+				});
+			}
 		    function deleteSchool(val){
 		    	$.ajax({
 				type: "POST",
@@ -646,16 +637,9 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 					}
 				});
 		    }
-		    function updateSchoolName(id,val){
-		    	alert(id+" "+ val);
-		    	$.ajax({
-				type: "POST",
-				url: "updateSchoolFunction.php",
-				data: { id: id, name : val },
-				success: function(data){
-					window.location ='School_ManageAddressBook.php';
-				}
-				});
+		    function updateSchoolName(id){
+		    	var val = document.getElementById('newSchoolName').value;
+		    	// alert(id+val);
 		    }
 		    function showDiv(){
 		    	var x = document.getElementById('viewSchool');
@@ -668,8 +652,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editSchoolName");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		           $('#btn1').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		           $('#btn1').prop('disabled', false);
 		        }
 		    }
 
@@ -677,8 +663,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editSchoolAddress");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn2').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn2').prop('disabled', false);
 		        }
 		    }
 
@@ -686,8 +674,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editContactPersonName");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn3').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn3').prop('disabled', false);
 		        }
 		    }
 
@@ -695,8 +685,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editDesignation");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn4').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn4').prop('disabled', false);
 		        }
 		    }
 
@@ -704,8 +696,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editCellphoneNumber");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn5').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn5').prop('disabled', false);
 		        }
 		    }
 
@@ -713,8 +707,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editTelephoneNumber");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn6').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn6').prop('disabled', false);
 		        }
 		    }
 
@@ -722,8 +718,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editFaxNumber");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn7').prop('disabled', true);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn7').prop('disabled', false);
 		        }
 		    }
 
@@ -731,8 +729,10 @@ else if(isset($_GET['id']) || isset($_GET['idPerson'])){
 		        var x = document.getElementById("editEmailAddress");
 		        if (x.style.display === "none") {
 		            x.style.display = "block";
+		            $('#btn8').prop('disabled', false);
 		        } else {
 		            x.style.display = "none";
+		            $('#btn8').prop('disabled', false);
 		        }
 		    }
 

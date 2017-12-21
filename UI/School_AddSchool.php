@@ -332,7 +332,7 @@ $provinceResult = $connect->select($provinceQuery);
 					</form>
 				</div>
 
-				<div class="modal-footer">
+				<div class="modal -footer">
 					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addToContactTable(txtContactPerson.value,txtDesignation.value,txtContactNumber.value,txtTelephoneNumber.value,txtFaxNumber.value,txtEmailAddress.value)">Save</button>
 				</div>

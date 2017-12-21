@@ -193,14 +193,15 @@ $resultsAccount= $connect->select($queryAccount);
 							                </select>
 							                <br />
 
-						    	<button type="button" class="btn btn-info" onclick="printAttendance();"><i class="icon-printer" style="margin-right: 5px;"></i>Print</button>
+						    	<button type="button" class="btn btn-info"  onclick="printAttendance();"><i class="icon-printer" style="margin-right: 5px;"></i>Print</button>
 						    		<br />
+
 						    		</div>					         
 						    	</div>
 
 								</div>
 
-								<div class="panel-body">
+								<div class="panel-body" style="margin-top: 15px;">
 									<table class="table datatable-html" name="table1" id="table1">
 
 										<thead style="font-size: 14px;">
@@ -261,6 +262,12 @@ $resultsAccount= $connect->select($queryAccount);
 		            closeOnCancel: true
 		        });
 		    });
+		    $('#table1').dataTable( {
+			  "columnDefs": [ {
+				"targets": 2,
+				"orderable": true
+				} ]
+			} );
 	</script>
 </body>
 </html>

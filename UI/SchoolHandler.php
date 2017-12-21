@@ -11,7 +11,7 @@ class SchoolHandler{
 	}
 	public function getSchool(){
 		$connect = new Connect();
-		$query = "SELECT * FROM `school` JOIN city ON school.idCity = city.idCity JOIN province ON city.idProvince = province.idProvince  WHERE status = 0 ORDER BY schoolName";
+		$query = "SELECT * FROM `school` JOIN city ON school.idCity = city.idCity JOIN province ON city.idProvince = province.idProvince  WHERE markasdeleted = 0 ORDER BY schoolName";
 		$result = $connect -> select($query);
 		return $result;
 	}
@@ -43,7 +43,7 @@ class SchoolHandler{
 	}
 	public function deleteSchool($idSchool){
 		$connect = new Connect();
-		$query = "UPDATE school SET status = 1 WHERE idSchool=".$idSchool;
+		$query = "UPDATE school SET markasdeleted = 1 WHERE idSchool=".$idSchool;
 		$result = $connect -> delete($query);
 		return $result;
 	}

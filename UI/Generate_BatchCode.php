@@ -171,13 +171,7 @@ $resultsGender= $connect -> select($queryGender);
 										<div class="form-group">
 							                <label>Center Location</label>
 							                <select class="form-control select2" style="width: 100%;">
-							                  <option selected="selected">Alabama</option>
-							                  <option>Alaska</option>
-							                  <option>California</option>
-							                  <option>Delaware</option>
-							                  <option>Tennessee</option>
-							                  <option>Texas</option>
-							                  <option>Washington</option>
+							                  <option></option>
 							                </select>
 							              </div>
 										<br/>
@@ -319,7 +313,29 @@ $resultsGender= $connect -> select($queryGender);
 
 							
 
-							<button id="btnSubmit" name="btnSubmit" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
+							<button id="btnSubmit" name="btnSubmit" data-toggle="modal"  data-target="#exampleModal" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
+
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title"></h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							<div class="modal-body">
+								<center><h3> Generated Batch Code: </h3></center>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary">Save changes</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
 						</form>
 		            </div>
 		            <!-- /wizard with validation -->
@@ -363,91 +379,14 @@ $resultsGender= $connect -> select($queryGender);
 	<script type="text/javascript" src="assets/js/pages/picker_date.js"></script>
 	<script type="text/javascript" src="assets/js/pages/uploader_bootstrap.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/uploaders/fileinput.min.js"></script>
+	<script type="text/javascript" src="assets/js/pages/components_modals.js"></script>
 	<!-- /theme JS files -->
 
 	<script src="assets/js/validation.js"></script>
 <script type="text/javascript">
-		    // // Warning alert
-		    // $('#btnSubmit').on('click', function() {
-		    //     swal({
-		    //         title: "Your batch code is: ",
-		    //         text: " ",
-		    //         type: "success",
-		    //         showCancelButton: true,
-		    //         confirmButtonColor: "#00a65a",
-		    //         confirmButtonText: "Ok",
-		    //         closeOnConfirm: true,
-		    //         closeOnCancel: true,
-		    //         Timer: 5000
+	$('#myModal').on('shown.bs.modal', function () {
+		$('#myInput').trigger('focus')
 
-		    //     });
-		    //     setTimeout((window.location='Generate_BatchCode.php'), 2000);
-		    // });
-
-			
-	// var bcode = document.getElementById("batchcode").value;
-	// getSchool(bcode);
-	// getStrand(bcode);
-	// $(document).ready(function() {
-	// 	demo.initMaterialWizard();
-	// 	setTimeout(function() {
-	// 		$('.card.wizard-card').addClass('active');
-	// 	}, 600);
-	// });
-
-	// function erroralert() {
-	// 	swal({
-	// 		title: 'Invalid!',
-	// 		text: 'Redirecting page...',
-	// 		type: 'error'
-	// 	});
-	// }
-
-	// $(document).ready(function() {
-	// 	md.initSliders()
-	// 	demo.initFormExtendedDatetimepickers();
-	// });
-	
-	// function getCity(val){
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "getCity.php",
-	// 		data: 'idProvince=' + val,
-	// 		success: function(data){
-	// 			$("#dropdownCity").html(data);
-	// 		}
-	// 	});
-	// }
-	// function getCity1(val){
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "getCity.php",
-	// 		data: 'idProvince=' + val,
-	// 		success: function(data){
-	// 			$("#dropdownCity1").html(data);
-	// 		}
-	// 	});
-	// }
-	// function getSchool(val){
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "getSchool.php",
-	// 		data: 'batchcode=' + val,
-	// 		success: function(data){
-	// 			$("#txtSchoolName").html(data);
-	// 		}
-	// 	});
-	// 	getStrand(val);
-	// }
-	// function getStrand(val){
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "getStrand.php",
-	// 		data: 'batchcode=' + val,
-	// 		success: function(data){
-	// 			$("#dropdownStrand").html(data);
-	// 		}
-	// 	});
-	// }
+	});
 </script>
 </html>
